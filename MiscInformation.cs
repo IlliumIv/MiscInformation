@@ -20,7 +20,7 @@ namespace MiscInformation
     {
         private string areaName = "";
 
-        private Dictionary<int, float> ArenaEffectiveLevels = new Dictionary<int, float>
+        private readonly Dictionary<int, float> ArenaEffectiveLevels = new Dictionary<int, float>
         {
             {71, 70.94f},
             {72, 71.82f},
@@ -39,7 +39,7 @@ namespace MiscInformation
         };
 
         private RectangleF bounds = RectangleF.Empty;
-        private TimeCache<bool> CalcXp;
+        // private TimeCache<bool> CalcXp;
         private bool CanRender;
         private DebugInformation debugInformation;
         private Vector2N drawTextVector2;
@@ -50,10 +50,10 @@ namespace MiscInformation
         private RectangleF leftPanelStartDrawRect = RectangleF.Empty;
         private TimeCache<bool> LevelPenalty;
         private double levelXpPenalty, partyXpPenalty;
-        private float maxX, maxY, percentGot;
+        private float maxX, /* maxY, */ percentGot;
         private double partytime = 4000;
         private string ping = "";
-        private DateTime startTime, lastTime;
+        private DateTime startTime /*, lastTime */;
         private long startXp, getXp, xpLeftQ;
         private float startY;
         private double time;
@@ -88,7 +88,8 @@ namespace MiscInformation
             };
 
             GameController.LeftPanel.WantUse(() => Settings.Enable);
-            CalcXp = new TimeCache<bool>(() =>
+
+            new TimeCache<bool>(() =>
             {
                 partytime += time;
                 time = 0;
@@ -140,7 +141,7 @@ namespace MiscInformation
             getXp = 0;
             xpLeftQ = 0;
 
-            startTime = lastTime = DateTime.UtcNow;
+            startTime = DateTime.UtcNow;
             startXp = entity.GetComponent<Player>().XP;
             levelXpPenalty = LevelXpPenalty();
         }
@@ -169,7 +170,7 @@ namespace MiscInformation
             }
 
             var UIHover = GameController.Game.IngameState.UIHover;
-            var miniMap = GameController.Game.IngameState.IngameUi.Map.SmallMiniMap;
+            var _ = GameController.Game.IngameState.IngameUi.Map.SmallMiniMap;
 
             if (UIHover.Tooltip != null && UIHover.Tooltip.IsVisibleLocal &&
                 UIHover.Tooltip.GetClientRectCache.Intersects(leftPanelStartDrawRect))
@@ -180,7 +181,6 @@ namespace MiscInformation
 
             CanRender = true;
 
-            var calcXpValue = CalcXp.Value;
             var ingameStateCurFps = GameController.Game.IngameState.CurFps;
             debugInformation.Tick = ingameStateCurFps;
             fps = $"fps:({ingameStateCurFps})";
