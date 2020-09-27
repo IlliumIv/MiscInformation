@@ -27,5 +27,6 @@ namespace MiscInformation
         public ColorNode FpsTextColor { get; set; }
         public ColorNode TimerTextColor { get; set; }
         public ColorNode LatencyTextColor { get; set; }
+        public RangeNode<float> WidthMultiplier { get; set; } = new RangeNode<float>(2f, 0, 3);
     }
 }
