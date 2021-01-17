@@ -268,6 +268,10 @@ namespace MiscInformation
                 return;
 
             leftPanelStartDrawPoint = GameController.LeftPanel.StartDrawPoint;
+
+            if (GameController.IngameState.IngameUi.Sulphit.IsVisible)
+                leftPanelStartDrawPoint.X -= GameController.IngameState.IngameUi.Sulphit.Width;
+
             leftPanelStartDrawRect = new RectangleF(leftPanelStartDrawPoint.X, leftPanelStartDrawPoint.Y, 1, 1);
 
             leftPanelStartDrawPoint.X -= maxX;
