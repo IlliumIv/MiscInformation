@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms; 
+using System.Windows.Forms;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.MemoryObjects;
@@ -36,6 +36,29 @@ namespace MiscInformation
             {82, 77.32f},
             {83, 77.54f},
             {84, 77.7f}
+        };
+
+        private Dictionary<int, string> AreaMapTierEquivalence = new Dictionary<int, string>
+        {
+            {68, "T1"},
+            {69, "T2"},
+            {70, "T3"},
+            {71, "T4"},
+            {72, "T5"},
+            {73, "T6"},
+            {74, "T7"},
+            {75, "T8"},
+            {76, "T9"},
+            {77, "T10"},
+            {78, "T11"},
+            {79, "T12"},
+            {80, "T13"},
+            {81, "T14"},
+            {82, "T15"},
+            {83, "T16"},
+            {84, "T17"},
+            {85, "T18"},
+            {86, "T19"},
         };
 
         private RectangleF bounds = RectangleF.Empty;
@@ -180,9 +203,13 @@ namespace MiscInformation
 
             var calcXpValue = CalcXp.Value;
             var ingameStateCurFps = GameController.Game.IngameState.CurFps;
+            var areaSuffix = (AreaMapTierEquivalence.ContainsKey(GameController.Area.CurrentArea.RealLevel))
+                ? $" - {AreaMapTierEquivalence[GameController.Area.CurrentArea.RealLevel]}"
+                : "";
+
             debugInformation.Tick = ingameStateCurFps;
             fps = $"fps:({ingameStateCurFps})";
-            areaName = $"{GameController.Area.CurrentArea.DisplayName}";
+            areaName = $"{GameController.Area.CurrentArea.DisplayName}{areaSuffix}";
             latency = $"({GameController.Game.IngameState.CurLatency})";
             ping = $"ping:({GameController.Game.IngameState.CurLatency})";
         }
