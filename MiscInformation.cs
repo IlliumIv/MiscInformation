@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -202,21 +202,21 @@ namespace MiscInformation
             CanRender = true;
 
             var calcXpValue = CalcXp.Value;
-            var ingameStateCurFps = GameController.Game.IngameState.CurFps;
-            var areaSuffix = (AreaMapTierEquivalence.ContainsKey(GameController.Area.CurrentArea.RealLevel))
-                ? $" - {AreaMapTierEquivalence[GameController.Area.CurrentArea.RealLevel]}"
+            var ingameStateCurFps = GameController?.Game?.IngameState?.CurFps ?? 1.0f;
+            var areaSuffix = (AreaMapTierEquivalence.ContainsKey((int)(GameController?.Area?.CurrentArea?.RealLevel)))
+                ? $" - {AreaMapTierEquivalence[(int)GameController?.Area?.CurrentArea?.RealLevel]}"
                 : "";
 
             debugInformation.Tick = ingameStateCurFps;
             fps = $"fps:({ingameStateCurFps})";
-            areaName = $"{GameController.Area.CurrentArea.DisplayName}{areaSuffix}";
-            latency = $"({GameController.Game.IngameState.CurLatency})";
-            ping = $"ping:({GameController.Game.IngameState.CurLatency})";
+            areaName = $"{GameController?.Area?.CurrentArea?.DisplayName}{areaSuffix}";
+            latency = $"({GameController?.Game?.IngameState?.CurLatency})";
+            ping = $"ping:({GameController?.Game?.IngameState?.CurLatency})";
         }
 
         private void CalculateXp()
         {
-            var level = GameController.Player.GetComponent<Player>().Level;
+            var level = GameController.Player.GetComponent<Player>()?.Level ?? 100;
 
             if (level >= 100)
             {
@@ -251,7 +251,7 @@ namespace MiscInformation
         private double LevelXpPenalty()
         {
             var arenaLevel = GameController.Area.CurrentArea.RealLevel;
-            var characterLevel = GameController.Player.GetComponent<Player>().Level;
+            var characterLevel = GameController.Player.GetComponent<Player>()?.Level ?? 100;
 
 
             if (arenaLevel > 70 && !ArenaEffectiveLevels.ContainsKey(arenaLevel))
@@ -290,7 +290,7 @@ namespace MiscInformation
                     if (level != null) levels.Add(e.GetComponent<Player>().Level);
                 }
 
-            var characterLevel = GameController.Player.GetComponent<Player>().Level;
+            var characterLevel = GameController.Player.GetComponent<Player>()?.Level ?? 100;
             var partyXpPenalty = Math.Pow(characterLevel + 10, 2.71) / levels.SumF(level => Math.Pow(level + 10, 2.71));
             return partyXpPenalty * levels.Count;
         }

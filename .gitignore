@@ -289,3 +289,6 @@ SharpDX.Desktop.dll
 PoeHUD.exe.config
 Newtonsoft.Json.xml
 /MiscInformation.dll.config
+
+# KDiff3
+*.orig
